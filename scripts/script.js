@@ -10,21 +10,33 @@
  * @param {number} nbMotsProposes : le nombre de mots proposés à l'utilisateur
  */
 function afficherResultat(score, nbMotsProposes) {
-    console.log("Votre score est de " + score + " sur " + nbMotsProposes);
-    let zoneScore = document.querySelector("zoneScore span");
-    zoneScore.textContent = `${score} / ${nbMotsProposes}`;
+    // Récupération de la zone dans laquelle on va écrire le score
+    let spanScore = document.querySelector(".zoneScore span");
+    // Ecriture du texte
+    let affichageScore = `${score} / ${nbMotsProposes}`;
+    // On place le texte à l'intérieur du span.
+    spanScore.innerText = affichageScore;
 }
 
-function afficherProposition(mot) {
+/**
+ * Cette fonction affiche une proposition, que le joueur devra recopier,
+ * dans la zone "zoneProposition"
+ * @param {string} proposition : la proposition à afficher
+ */
+function afficherProposition(proposition) {
     let zoneProposition = document.querySelector(".zoneProposition");
-    console.log(zoneProposition);
-    zoneProposition.textContent = mot;
+    zoneProposition.innerText = proposition;
 }
 
-function resetInputEcriture() {
-    let inputEcriture = document.getElementById("inputEcriture");
-    console.log(inputEcriture);
-    inputEcriture.value = "";
+/**
+ * Cette fonction construit et affiche l'email.
+ * @param {string} nom : le nom du joueur
+ * @param {string} email : l'email de la personne avec qui il veut partager son score
+ * @param {string} score : le score.
+ */
+function afficherEmail(nom, email, score) {
+    let mailto = `mailto:${email}?subject=Partage du score Azertype&body=Salut, je suis ${nom} et je viens de réaliser le score ${score} sur le site d'Azertype !`;
+    location.href = mailto;
 }
 
 /**
@@ -33,53 +45,48 @@ function resetInputEcriture() {
  */
 function lancerJeu() {
     // Initialisations
+    initAddEventListenerPopup();
     let score = 0;
-    let nbMotsProposes = 0;
-    let listePropositions = listeMots;
-
     let i = 0;
-    console.log(listePropositions[i]);
-    afficherProposition(listePropositions[i]);
-    nbMotsProposes++;
+    let listeProposition = listeMots;
 
     let btnValiderMot = document.getElementById("btnValiderMot");
+    let inputEcriture = document.getElementById("inputEcriture");
+
+    afficherProposition(listeProposition[i]);
+
+    // Gestion de l'événement click sur le bouton "valider"
     btnValiderMot.addEventListener("click", () => {
-        if (listeMots[i] == inputEcriture.textContent) {
+        if (inputEcriture.value === listeProposition[i]) {
             score++;
         }
-        afficherResultat(score, nbMotsProposes);
-
         i++;
-        console.log(i, "Boutton clicker !");
-        if (i < listePropositions.length) {
-            afficherProposition(listePropositions[i]);
-            nbMotsProposes++;
-        } else {
+        afficherResultat(score, i);
+        inputEcriture.value = "";
+        if (listeProposition[i] === undefined) {
             afficherProposition("Le jeu est fini");
             btnValiderMot.disabled = true;
+        } else {
+            afficherProposition(listeProposition[i]);
         }
-        resetInputEcriture();
     });
 
-    let inputEcriture = document.getElementById("inputEcriture");
-    inputEcriture.addEventListener("keydown", (event) => {
-        console.log(inputEcriture.value);
-    });
-
-    let listeOptionSource = document.querySelectorAll(
-        'input[name="optionSource"]'
-    );
-    for (let index = 0; index < listeOptionSource.length; index++) {
-        listeOptionSource[index].addEventListener("change", (event) => {
-            console.log(event.target.value);
-            if (event.target.value == "1") {
-                listePropositions = listeMots;
+    // Gestion de l'événement change sur les boutons radios.
+    let listeBtnRadio = document.querySelectorAll(".optionSource input");
+    for (let index = 0; index < listeBtnRadio.length; index++) {
+        listeBtnRadio[index].addEventListener("change", (event) => {
+            // Si c'est le premier élément qui a été modifié, alors nous voulons
+            // jouer avec la listeMots.
+            if (event.target.value === "1") {
+                listeProposition = listeMots;
             } else {
-                listePropositions = listePhrases;
+                // Sinon nous voulons jouer avec la liste des phrases
+                listeProposition = listePhrases;
             }
-            afficherProposition(listePropositions[i]);
+            // Et on modifie l'affichage en direct.
+            afficherProposition(listeProposition[i]);
         });
     }
 
-    afficherResultat(score, nbMotsProposes);
+    afficherResultat(score, i);
 }
