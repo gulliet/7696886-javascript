@@ -42,16 +42,12 @@ function afficherEmail(nom, email, score) {
 /**
  * Cette fonction vérifie si un nom valide a bien été saisie
  * @param {string} nom : le nom du joueur
- * @returns : true or false
  */
 function validerNom(nom) {
-    let regex = new RegExp("^[a-zA-Z]+$");
-    if (regex.test(nom)) {
-        console.log("Le nom est valide");
-        return true;
+    if (nom.length < 2) {
+        throw new Error(`Le nom "${nom}" n'est pas assez long`);
     } else {
-        console.log("Erreur : nom pas valide");
-        return false;
+        console.log(`Le nom "${nom}" est assez long `);
     }
 }
 
