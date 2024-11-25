@@ -88,5 +88,25 @@ function lancerJeu() {
         });
     }
 
+    // Gestion de l'événement submit sur le boutton "envoyer"
+    let form = document.querySelector(".popup form");
+    form.addEventListener("submit", (event) => {
+        // On empèche l'événement par défaut
+        event.preventDefault();
+        console.log("Pas de rechargement de la page");
+
+        let fieldNom = document.getElementById("nom");
+        let nom = fieldNom.value;
+        console.log(nom);
+
+        let fieldEmail = document.getElementById("email");
+        let email = fieldEmail.value;
+        console.log(email);
+
+        let emailScore = `de ${score} sur ${i}`;
+
+        afficherEmail(nom, email, emailScore);
+    });
+
     afficherResultat(score, i);
 }
