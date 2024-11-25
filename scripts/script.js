@@ -54,16 +54,13 @@ function validerNom(nom) {
 /**
  * Cette fonction vérifie si l'addresse email a le bon format
  * @param {string} email : l'addresse emaail du destinataire
- * @returns : true ou false
  */
 function validerEmail(email) {
     let regex = new RegExp("[a-z0-9._-]+@[a-z0-9._-]+\\.[a-z0-9._-]+");
     if (regex.test(email)) {
-        console.log("L'email est valide");
-        return true;
+        console.log(`L'email "${email}" est valid`);
     } else {
-        console.log("Erreur : email pas valide");
-        return false;
+        throw new Error(`L'addresse email "${email}" n'est pas valide`);
     }
 }
 
