@@ -35,10 +35,11 @@ function lancerJeu() {
     // Initialisations
     let score = 0;
     let nbMotsProposes = 0;
+    let listePropositions = listeMots;
 
     let i = 0;
-    console.log(listeMots[i]);
-    afficherProposition(listeMots[i]);
+    console.log(listePropositions[i]);
+    afficherProposition(listePropositions[i]);
     nbMotsProposes++;
 
     let btnValiderMot = document.getElementById("btnValiderMot");
@@ -50,8 +51,8 @@ function lancerJeu() {
 
         i++;
         console.log(i, "Boutton clicker !");
-        if (i < listeMots.length) {
-            afficherProposition(listeMots[i]);
+        if (i < listePropositions.length) {
+            afficherProposition(listePropositions[i]);
             nbMotsProposes++;
         } else {
             afficherProposition("Le jeu est fini");
@@ -64,6 +65,21 @@ function lancerJeu() {
     inputEcriture.addEventListener("keydown", (event) => {
         console.log(inputEcriture.value);
     });
+
+    let listeOptionSource = document.querySelectorAll(
+        'input[name="optionSource"]'
+    );
+    for (let index = 0; index < listeOptionSource.length; index++) {
+        listeOptionSource[index].addEventListener("change", (event) => {
+            console.log(event.target.value);
+            if (event.target.value == "1") {
+                listePropositions = listeMots;
+            } else {
+                listePropositions = listePhrases;
+            }
+            afficherProposition(listePropositions[i]);
+        });
+    }
 
     afficherResultat(score, nbMotsProposes);
 }
