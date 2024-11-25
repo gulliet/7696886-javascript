@@ -42,6 +42,7 @@ function afficherEmail(nom, email, score) {
 /**
  * Cette fonction vérifie si un nom valide a bien été saisie
  * @param {string} nom : le nom du joueur
+ * @throws {Error}
  */
 function validerNom(nom) {
     if (nom.length < 2) {
@@ -52,6 +53,7 @@ function validerNom(nom) {
 /**
  * Cette fonction vérifie si l'addresse email a le bon format
  * @param {string} email : l'addresse emaail du destinataire
+ * @throws {Error}
  */
 function validerEmail(email) {
     let regex = new RegExp("[a-z0-9._-]+@[a-z0-9._-]+\\.[a-z0-9._-]+");
