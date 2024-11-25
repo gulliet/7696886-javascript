@@ -40,6 +40,38 @@ function afficherEmail(nom, email, score) {
 }
 
 /**
+ * Cette fonction vérifie si un nom valide a bien été saisie
+ * @param {string} nom : le nom du joueur
+ * @returns : true or false
+ */
+function validerNom(nom) {
+    let regex = new RegExp("^[a-zA-Z]+$");
+    if (regex.test(nom)) {
+        console.log("Le nom est valide");
+        return true;
+    } else {
+        console.log("Erreur : nom pas valide");
+        return false;
+    }
+}
+
+/**
+ * Cette fonction vérifie si l'addresse email a le bon format
+ * @param {string} email : l'addresse emaail du destinataire
+ * @returns : true ou false
+ */
+function validerEmail(email) {
+    let regex = new RegExp("[a-z0-9._-]+@[a-z0-9._-]+\\.[a-z0-9._-]+");
+    if (regex.test(email)) {
+        console.log("L'email est valide");
+        return true;
+    } else {
+        console.log("Erreur : email pas valide");
+        return false;
+    }
+}
+
+/**
  * Cette fonction lance le jeu.
  * Elle demande à l'utilisateur de choisir entre "mots" et "phrases" et lance la boucle de jeu correspondante
  */
@@ -98,14 +130,22 @@ function lancerJeu() {
         let fieldNom = document.getElementById("nom");
         let nom = fieldNom.value;
         console.log(nom);
+        let resultat = validerNom(nom);
+        console.log(resultat);
 
         let fieldEmail = document.getElementById("email");
         let email = fieldEmail.value;
         console.log(email);
+        resultat = validerEmail(email);
+        console.log(resultat);
 
         let emailScore = `de ${score} sur ${i}`;
 
-        afficherEmail(nom, email, emailScore);
+        if (resultat) {
+            afficherEmail(nom, email, emailScore);
+        } else {
+            console.log("! ! !   E R R E U R   ! ! !");
+        }
     });
 
     afficherResultat(score, i);
