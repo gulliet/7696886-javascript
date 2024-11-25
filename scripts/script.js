@@ -72,6 +72,40 @@ function validerEmail(email) {
 }
 
 /**
+ * Cette fonction gère le formulaire de partage de score
+ * @param {string} score : le score du joueur
+ */
+function gererFormulaire(score) {
+    // Gestion de l'événement submit sur le boutton "envoyer"
+    let form = document.querySelector(".popup form");
+    form.addEventListener("submit", (event) => {
+        // On empèche l'événement par défaut
+        event.preventDefault();
+        console.log("Pas de rechargement de la page");
+
+        let fieldNom = document.getElementById("nom");
+        let nom = fieldNom.value;
+        console.log(nom);
+        let resultat = validerNom(nom);
+        console.log(resultat);
+
+        let fieldEmail = document.getElementById("email");
+        let email = fieldEmail.value;
+        console.log(email);
+        resultat = validerEmail(email);
+        console.log(resultat);
+
+        let emailScore = `de ${score}`;
+
+        if (resultat) {
+            afficherEmail(nom, email, emailScore);
+        } else {
+            console.log("! ! !   E R R E U R   ! ! !");
+        }
+    });
+}
+
+/**
  * Cette fonction lance le jeu.
  * Elle demande à l'utilisateur de choisir entre "mots" et "phrases" et lance la boucle de jeu correspondante
  */
@@ -120,33 +154,7 @@ function lancerJeu() {
         });
     }
 
-    // Gestion de l'événement submit sur le boutton "envoyer"
-    let form = document.querySelector(".popup form");
-    form.addEventListener("submit", (event) => {
-        // On empèche l'événement par défaut
-        event.preventDefault();
-        console.log("Pas de rechargement de la page");
-
-        let fieldNom = document.getElementById("nom");
-        let nom = fieldNom.value;
-        console.log(nom);
-        let resultat = validerNom(nom);
-        console.log(resultat);
-
-        let fieldEmail = document.getElementById("email");
-        let email = fieldEmail.value;
-        console.log(email);
-        resultat = validerEmail(email);
-        console.log(resultat);
-
-        let emailScore = `de ${score} sur ${i}`;
-
-        if (resultat) {
-            afficherEmail(nom, email, emailScore);
-        } else {
-            console.log("! ! !   E R R E U R   ! ! !");
-        }
-    });
+    gererFormulaire(score);
 
     afficherResultat(score, i);
 }
