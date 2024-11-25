@@ -61,6 +61,17 @@ function validerEmail(email) {
 }
 
 /**
+ * Cette fonction affiche le message d'erreur dans le formulaire popup
+ * @param {string} message
+ */
+function afficherMessageErreur(message) {
+    const msg = `Une erreur est survenue : ${message}`;
+    let popup = document.querySelector(".popup");
+    // let txt = popup.appendChild(document.createElement("span"))
+    popup.innerHTML += `<span>${msg}</span>`;
+}
+
+/**
  * Cette fonction gère le formulaire de partage de score
  * @param {string} score : le score du joueur
  */
@@ -82,7 +93,7 @@ function gererFormulaire(score) {
             let emailScore = `de ${score}`;
             afficherEmail(nom, email, emailScore);
         } catch (error) {
-            console.log(`Une erreur est survenue : ${error.message}`);
+            afficherMessageErreur(error.message);
         }
     });
 }
