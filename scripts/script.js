@@ -46,8 +46,6 @@ function afficherEmail(nom, email, score) {
 function validerNom(nom) {
     if (nom.length < 2) {
         throw new Error(`Le nom "${nom}" n'est pas assez long`);
-    } else {
-        console.log(`Le nom "${nom}" est assez long `);
     }
 }
 
@@ -57,9 +55,7 @@ function validerNom(nom) {
  */
 function validerEmail(email) {
     let regex = new RegExp("[a-z0-9._-]+@[a-z0-9._-]+\\.[a-z0-9._-]+");
-    if (regex.test(email)) {
-        console.log(`L'email "${email}" est valid`);
-    } else {
+    if (!regex.test(email)) {
         throw new Error(`L'addresse email "${email}" n'est pas valide`);
     }
 }
@@ -72,28 +68,21 @@ function gererFormulaire(score) {
     // Gestion de l'événement submit sur le boutton "envoyer"
     let form = document.querySelector(".popup form");
     form.addEventListener("submit", (event) => {
-        // On empèche l'événement par défaut
-        event.preventDefault();
-        console.log("Pas de rechargement de la page");
+        try {
+            event.preventDefault();
 
-        let fieldNom = document.getElementById("nom");
-        let nom = fieldNom.value;
-        console.log(nom);
-        let resultat = validerNom(nom);
-        console.log(resultat);
+            let fieldNom = document.getElementById("nom");
+            let nom = fieldNom.value;
+            validerNom(nom);
 
-        let fieldEmail = document.getElementById("email");
-        let email = fieldEmail.value;
-        console.log(email);
-        resultat = validerEmail(email);
-        console.log(resultat);
+            let fieldEmail = document.getElementById("email");
+            let email = fieldEmail.value;
+            validerEmail(email);
 
-        let emailScore = `de ${score}`;
-
-        if (resultat) {
+            let emailScore = `de ${score}`;
             afficherEmail(nom, email, emailScore);
-        } else {
-            console.log("! ! !   E R R E U R   ! ! !");
+        } catch (error) {
+            console.log(`Une erreur est survenue : ${error.message}`);
         }
     });
 }
